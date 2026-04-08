@@ -119,7 +119,7 @@
       box-shadow: 0 14px 40px rgba(60,40,20,0.06);
       color: #ffffff;
     }
-    .brand-text strong { font-weight: 800; font-size: var(--text-sm); letter-spacing: 0.12em; text-transform: uppercase; }
+    .brand-text strong { font-weight: 800; font-size: var(--text-sm); letter-spacing: 0.12em; text-transform: uppercase; white-space: nowrap; }
     .brand-text span { display: block; font-size: var(--text-xs); color: var(--color-text-muted); font-weight: 500; }
 
     .nav-actions { display: flex; align-items: center; gap: 0.6rem; }
@@ -256,10 +256,12 @@
       color: var(--color-text-muted); font-weight: 500;
     }
 
-    .hero-lower-grid {
-      margin-top: 1.8rem;
+    .hero-right-col {
       display: grid;
       gap: 1rem;
+    }
+    .hero-metrics {
+      margin-top: 1.5rem;
     }
     .metric-card, .flow-card {
       border-radius: var(--radius-card);
@@ -325,8 +327,8 @@
     }
     .card:hover, .metric-card:hover, .flow-card:hover, .lead-card:hover {
       transform: translateY(-4px);
-      box-shadow: 0 32px 90px rgba(0, 0, 0, 0.8);
-      border-color: rgba(242, 178, 116, 0.25);
+      box-shadow: 0 24px 60px rgba(60, 40, 20, 0.13);
+      border-color: rgba(242, 178, 116, 0.35);
     }
 
     .card {
@@ -489,23 +491,36 @@
 
     @media (min-width: 780px) {
       .hero {
-        padding-top: 4.1rem;
+        padding-top: 4.4rem;
+        padding-bottom: 1rem;
       }
       .hero-inner {
-        grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.95fr);
+        grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
         align-items: flex-start;
+        gap: 3rem;
       }
-      .hero-lower-grid {
-        grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+      .hero-right-col {
+        margin-top: 0;
+      }
+      .hero-metrics {
+        grid-template-columns: repeat(4, minmax(0,1fr));
+        margin-top: 2rem;
+      }
+      section {
+        padding: 3.2rem 0 2rem;
       }
       .grid-3 { grid-template-columns: repeat(3, minmax(0,1fr)); }
-      .grid-2, .pricing-grid, .faq-grid, .split-2 { grid-template-columns: repeat(2, minmax(0,1fr)); }
+      .grid-2, .faq-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
+      .pricing-grid { grid-template-columns: repeat(3, minmax(0,1fr)); }
+      .split-2 { grid-template-columns: repeat(2, minmax(0,1fr)); gap: 2rem; }
       .footer-inner { flex-direction: row; justify-content: space-between; align-items: center; }
     }
 
     @media (max-width: 779px) {
       .nav-actions .ghost-btn { display: none; }
       .hero-inner { gap: 1.6rem; }
+      .brand-text span { display: none; }
+      .brand-text strong { font-size: var(--text-xs); }
     }
 
     /* Scroll Reveal */
@@ -590,31 +605,11 @@
             </div>
           </div>
 
-          <div class="hero-lower-grid" aria-label="At-a-glance stats and process">
-            <article class="metric-card">
-              <div class="metric">
-                <strong>24h</strong>
-                <span>Typical turnaround for hours, menu, and listing updates — nothing sits stale.</span>
-              </div>
-              <div class="metric">
-                <strong>3 plans</strong>
-                <span>Starter, Growth, and Premium — made to be scannable on a phone.</span>
-              </div>
-              <div class="metric">
-                <strong>48h</strong>
-                <span>Priority update window on the Premium plan.</span>
-              </div>
-              <div class="metric">
-                <strong>1 focus</strong>
-                <span>Independent cafés only — no bloated agency contracts or enterprise lock-in.</span>
-              </div>
-            </article>
-
-            
-            <div style="border-radius: var(--radius-card); overflow: hidden; margin-bottom: 2rem; box-shadow: var(--shadow-soft); height: 300px; max-height: 300px;">
+          <div class="hero-right-col">
+            <div style="border-radius: var(--radius-card); overflow: hidden; box-shadow: var(--shadow-soft); height: 340px; max-height: 340px;">
               <img src="espresso.png" alt="Pouring espresso" style="width: 100%; height: 100%; object-fit: cover; object-position: center;" />
             </div>
-<article class="flow-card">
+            <article class="flow-card">
               <h2>What we do each month feels simple from your side.</h2>
               <div class="flow-steps">
                 <span>Fix hours, menu links, and map pins</span>
@@ -625,6 +620,24 @@
             </article>
           </div>
         </div>
+        <article class="metric-card hero-metrics">
+          <div class="metric">
+            <strong>24h</strong>
+            <span>Typical turnaround for hours, menu, and listing updates — nothing sits stale.</span>
+          </div>
+          <div class="metric">
+            <strong>3 plans</strong>
+            <span>Starter, Growth, and Premium — made to be scannable on a phone.</span>
+          </div>
+          <div class="metric">
+            <strong>48h</strong>
+            <span>Priority update window on the Premium plan.</span>
+          </div>
+          <div class="metric">
+            <strong>1 focus</strong>
+            <span>Independent cafés only — no bloated agency contracts or enterprise lock-in.</span>
+          </div>
+        </article>
       </section>
 
       <section class="container" id="services">
@@ -803,7 +816,7 @@
             <form id="interest-form">
               <div>
                 <label for="interest-email">Email</label>
-                <input id="interest-email" name="interest-email" type="email" placeholder="owner@example.com" />
+                <input id="interest-email" name="email" type="email" placeholder="owner@example.com" />
               </div>
               <div>
                 <label for="note">Optional note</label>
