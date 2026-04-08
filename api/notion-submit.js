@@ -72,6 +72,9 @@ module.exports = async function (req, res) {
 
   } catch (error) {
     console.error('Notion API Error:', error);
-    res.status(500).json({ error: 'Failed to create lead in Notion. Check server logs.' });
+    const message = error?.body
+      ? JSON.parse(error.body)?.message
+      : error?.message;
+    res.status(500).json({ error: message || 'Failed to create lead in Notion. Check server logs.' });
   }
 };
