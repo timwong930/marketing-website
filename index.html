@@ -1093,13 +1093,24 @@
         if (response.ok) {
           form.innerHTML = '<div style="padding: 2rem; text-align: center; color: var(--color-success); font-weight: 600;">Success! We received your information.</div>';
         } else {
-          btn.innerText = "Error! Try again.";
+          const body = await response.json().catch(() => ({}));
+          btn.innerText = originalText;
           btn.disabled = false;
+          const errEl = form.querySelector('.form-error') || document.createElement('p');
+          errEl.className = 'form-error';
+          errEl.style.cssText = 'color:var(--color-danger);font-size:var(--text-sm);margin-top:0.5rem;';
+          errEl.textContent = body.error || 'Something went wrong. Try again.';
+          if (!form.querySelector('.form-error')) form.appendChild(errEl);
         }
       } catch (err) {
         console.error(err);
-        btn.innerText = "Network Error. Try again.";
+        btn.innerText = originalText;
         btn.disabled = false;
+        const errEl = form.querySelector('.form-error') || document.createElement('p');
+        errEl.className = 'form-error';
+        errEl.style.cssText = 'color:var(--color-danger);font-size:var(--text-sm);margin-top:0.5rem;';
+        errEl.textContent = 'Network error — check your connection and try again.';
+        if (!form.querySelector('.form-error')) form.appendChild(errEl);
       }
     }
 
