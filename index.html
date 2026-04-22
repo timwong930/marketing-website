@@ -93,7 +93,7 @@
     }
 
     .container {
-      width: min(100% - 2.4rem, var(--content-max));
+      width: min(100% - 2rem, var(--content-max));
       margin: 0 auto;
     }
 
@@ -108,6 +108,7 @@
       display: flex; align-items: center; justify-content: space-between;
       padding: 0.9rem 0;
       gap: 1rem;
+      flex-wrap: wrap;
     }
     .brand {
       display: inline-flex; align-items: center; gap: 0.9rem;
@@ -208,6 +209,7 @@
       color: var(--color-text-muted); font-weight: 500;
       max-width: 36ch;
       text-shadow: 0 0 18px rgba(243,245,249,1), 0 0 36px rgba(243,245,249,0.85);
+      text-wrap: pretty;
     }
 
     .hero-meta {
@@ -257,6 +259,20 @@
       border: 1px solid var(--color-border-soft);
       font-size: var(--text-xs);
       color: var(--color-text-muted); font-weight: 500;
+    }
+
+    .hero-visual {
+      border-radius: var(--radius-card);
+      overflow: hidden;
+      box-shadow: var(--shadow-soft);
+      height: clamp(220px, 38vw, 340px);
+      max-height: 340px;
+    }
+    .hero-visual img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
     }
 
     .hero-right-col {
@@ -457,7 +473,7 @@
     .sticky-cta {
       position: fixed;
       inset-inline: 0;
-      bottom: 0.7rem;
+      bottom: max(0.7rem, env(safe-area-inset-bottom));
       display: flex;
       justify-content: center;
       pointer-events: none;
@@ -517,6 +533,7 @@
       .pricing-grid { grid-template-columns: repeat(3, minmax(0,1fr)); }
       .split-2 { grid-template-columns: repeat(2, minmax(0,1fr)); gap: 2rem; }
       .footer-inner { flex-direction: row; justify-content: space-between; align-items: center; }
+      .sticky-cta { display: none; }
     }
 
     @media (max-width: 779px) {
@@ -524,6 +541,32 @@
       .hero-inner { gap: 1.6rem; }
       .brand-text span { display: none; }
       .brand-text strong { font-size: var(--text-xs); }
+      .hero-cta-row a { flex: 1 1 auto; min-width: 170px; }
+      .hero-quick span { width: 100%; }
+      .metric-card { grid-template-columns: 1fr; }
+      .plan-tag { position: static; display: inline-flex; margin-bottom: 0.7rem; }
+      .pricing-grid .card p[style] { margin-top: 0 !important; }
+      main { padding-bottom: 7rem; }
+    }
+
+    @media (max-width: 520px) {
+      .container { width: min(100% - 1.25rem, var(--content-max)); }
+      .hero { padding-top: 2.2rem; }
+      .hero-heading h1 { line-height: 1.08; }
+      .card, .lead-card, .flow-card, .metric-card, .setup-box { padding: 1rem; }
+      .sticky-cta-inner {
+        width: min(100% - 0.8rem, 420px);
+        gap: 0.55rem;
+        padding: 0.5rem;
+      }
+      .sticky-cta-inner span {
+        font-size: 0.8rem;
+        line-height: 1.3;
+      }
+      .sticky-cta-inner .primary-btn {
+        min-height: 40px;
+        padding-inline: 0.95rem;
+      }
     }
 
     /* Scroll Reveal */
@@ -604,8 +647,8 @@
           </div>
 
           <div class="hero-right-col">
-            <div style="border-radius: var(--radius-card); overflow: hidden; box-shadow: var(--shadow-soft); height: 340px; max-height: 340px;">
-              <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1400&q=80" alt="Team meeting around a table reviewing strategy for growth" style="width: 100%; height: 100%; object-fit: cover; object-position: center;" />
+          <div class="hero-visual">
+              <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1400&q=80" alt="Team meeting around a table reviewing strategy for growth" loading="lazy" decoding="async" />
             </div>
             <article class="flow-card">
               <h2>What we handle each month stays simple on your side.</h2>
@@ -886,7 +929,8 @@
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
       container.appendChild(renderer.domElement);
 
-      const count = 800;
+      const isSmallScreen = window.matchMedia('(max-width: 779px)').matches;
+      const count = isSmallScreen ? 420 : 800;
       const geometry = new THREE.BufferGeometry();
       const positions = new Float32Array(count * 3);
       const colors = new Float32Array(count * 3);
@@ -926,6 +970,10 @@
       const initialY = positions.slice();
 
       function animate(now) {
+        if (document.hidden) {
+          requestAnimationFrame(animate);
+          return;
+        }
         const t = now * 0.00015;
         const pos = geometry.attributes.position.array;
 
