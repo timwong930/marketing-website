@@ -75,6 +75,28 @@
     }
     .skip-link:focus-visible { top: 1rem; }
 
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+    .sr-only:focus,
+    .sr-only:focus-visible {
+      position: static;
+      width: auto;
+      height: auto;
+      margin: 0;
+      overflow: visible;
+      clip: auto;
+      white-space: normal;
+    }
+
     .page-shell { position: relative; isolation: isolate; }
 
     #three-container {
@@ -833,6 +855,7 @@
       <div class="container footer-inner">
         <p>© 2025 Roast &amp; Reach. Digital upkeep for independent coffee shops.</p>
         <p><a href="#contact" style="text-decoration: underline;">Book a free audit</a></p>
+        <a class="sr-only" href="AI-CONTEXT.md">AI context file</a>
       </div>
     </footer>
 
